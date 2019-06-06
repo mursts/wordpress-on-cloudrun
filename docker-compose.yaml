@@ -1,0 +1,24 @@
+version: '3.3'
+
+services:
+  cloudsql-proxy:
+    image: gcr.io/cloudsql-docker/gce-proxy:1.12
+    command:
+      ["/cloud_sql_proxy",
+       "-instances=$CONNECTION_NAME=tcp:0.0.0.0:3306",
+       "-credential_file=/config/freegufo-storage-4ee5c67bc94e.json"]
+    ports:
+      - "3306:3306"
+    volumes:
+      - ../config:/config
+  wordpress:
+    image: wordpress:php7.2
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: cloudsql-proxy:3306
+      WORDPRESS_DB_USER: $DB_USER
+      WORDPRESS_DB_PASSWORD: $DB_PASSWORD
+      WORDPRESS_DB_NAME: $DB_NAME
+    depends_on:
+      - cloudsql-proxy
