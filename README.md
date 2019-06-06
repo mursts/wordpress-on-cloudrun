@@ -17,7 +17,13 @@ gcloud builds submit --tag gcr.io/[project_id]/[name]
 ## デプロイ
 
 ```
-gcloud beta run deploy --image gcr.io/[project_id]/[name] --add-cloudsql-instances [CONNECTION-NAME]
+export DB_USER=xxxxxx
+export DB_PASSWORD=xxxxxx
+export DB_NAME=xxxxxx
+export CONNECTION_NAME=xxxxxx
+
+gcloud beta run deploy --image gcr.io/[project_id]/[name] --add-cloudsql-instances $CONNECTION_NAME \
+    --update-env-vars WORDPRESS_DB_HOST=:/cloudsql/$CONNECTION_NAME,WORDPRESS_DB_USER=$DB_USER,WORDPRESS_DB_PASSWORD=$DB_PASSWORD,WORDPRESS_DB_NAME=$DB_NAME
 ```
 
 ## ローカル実行
