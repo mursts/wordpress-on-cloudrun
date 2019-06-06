@@ -17,7 +17,7 @@ gcloud builds submit --tag gcr.io/[project_id]/[name]
 ## デプロイ
 
 ```
-gcloud beta run deploy --image gcr.io/[project_id]/[name]
+gcloud beta run deploy --image gcr.io/[project_id]/[name] --add-cloudsql-instances [CONNECTION-NAME]
 ```
 
 ## ローカル実行
